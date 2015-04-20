@@ -265,7 +265,8 @@ jsontTemplate.render(input, function(err, out) {
     	return console.log(err); 
     }
 
-console.log("Done! Transformed " + options.renderstream.xFormResults.length + " items");			    
+    console.log("Done! Transformed " + 
+       options.renderstream.xFormResults.length + " items");			    
 });
 ```
 
