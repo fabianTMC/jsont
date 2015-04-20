@@ -1,0 +1,17 @@
+	{
+		"SKU" : "`listing_id`",
+		"State": "`state`",				
+		"Title" : "`title`",
+		"Description" : "`description`",
+		"Price" : "`price`",		
+		"Quantity" : "`quantity`",
+		"Format" : "FixedPrice",			
+		"Condition" : "Used",
+		"Era" : "`when_made`",
+		"Tags" : "`tags`",
+		"Categories" : "`category_path`",	
+		"Materials" : "`materials`",
+		"Style" : "`style`",	
+		"Images" : "`Images`",
+		"Shipping": "`ShippingInfo | map | partial:'./test/cases/renderstream/shippinginfo'`"			
+	}

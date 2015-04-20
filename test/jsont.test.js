@@ -26,6 +26,11 @@ describe('jsont', function(){
 
       render(data, function(err, actual) {
         if (err) return done(err);
+        
+        if (options && options.renderstream) {
+        	actual = options.renderstream.xFormResults;
+        } 
+        
         expect(JSON.parse(JSON.stringify(actual))).to.eql(expected);
         done();
       });

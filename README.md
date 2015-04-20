@@ -21,6 +21,8 @@ Features
 * Valid JSON
 * Extensible
 * Auto-parallelization of templated properties
+* Transform streaming for improved performance and async processing
+* Partial JSONt templates to allow template chaining
 
 Example
 -------
@@ -202,6 +204,65 @@ Everything gets put on the event loop and renders as responses come back.
     }
   ]
 }
+```
+
+Transform Streaming
+-------------------
+
+You can tell `jsont` to use an asynchronous stream to transform an Array of JSON objects.  
+Custom event-handlers are defined on the Options object and passed in to `render` 
+as the `options`
+
+```var jsont = require('jsont')();
+
+function Options() {
+	this.renderstream = {};
+	
+	// Hold the transformed items
+	this.renderstream.xFormResults = [];	
+	
+	// Push transformed item as it is processed into the xFormResults Array
+	this.renderstream.fnStreamOnXform = function(row) {
+		this.xFormResults.push(row);
+	};
+	
+	// Do this when there is an error
+	this.renderstream.fnStreamOnError = function(err) {
+		console.log(err.message);		
+	};
+	
+	// Do this after the last item is transformed
+	this.renderstream.fnStreamOnFinish = function() {
+		var xFormResultsJSON = JSON.stringify(this.xFormResults, null, 4);
+		
+		// Write to a file
+		var fs = require('fs');
+		var outFile = "myfilename.json";
+		fs.writeFile(outFile, xFormResultsJSON, function (err) {
+			if (err) { 
+				return console.log(err); 
+			}
+			console.log('File written: "' + outFile + '"');
+		});	
+		
+		console.log("Done! Transformed " + this.xFormResults.length + " items");
+	}
+};
+
+// Instantiate the Options object
+var options = new Options();
+
+// Compile the JSONt template
+var jsontTemplate = jsont.compile("templateFile.js", options);	
+
+// Tell JSONt to start rendering		
+jsontTemplate.render(input, function(err, out) {
+    if (err) { 
+    	return console.log(err); 
+    }
+    
+	console.log("Done! Transformed " + options.renderstream.xFormResults.length + " items");			    
+});
 ```
 
 Tests

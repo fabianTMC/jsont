@@ -6,12 +6,6 @@ var people = {
 };
 
 module.exports = function(jsont) {
-  jsont.use('partial', function(person, partial, done) {
-    var p = require('./'+partial);
-
-    var fn = jsont.compile(p);
-    fn(person, done);
-  });
 
   jsont.use('fetch', function(id, done) {
     setTimeout(function() {

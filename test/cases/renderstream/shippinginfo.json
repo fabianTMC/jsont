@@ -1,0 +1,4 @@
+{
+	"destination" : "`destination_country_name`",
+	"cost" : "`primary_cost`"
+}
