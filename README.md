@@ -1,4 +1,4 @@
-jsont [![Build Status](https://travis-ci.org/CamShaft/jsont.png?branch=master)](https://travis-ci.org/CamShaft/jsont)
+jsont 
 =====
 
 Simple json template language
@@ -269,6 +269,52 @@ jsontTemplate.render(input, function(err, out) {
        options.renderstream.xFormResults.length + " items");			    
 });
 ```
+
+Partial Templates
+-----------------
+
+With `jsont` you can define a template that uses another template to render a 
+sub-section.  In the template, use the `partial` keyword and specify the 
+file path to the template file.
+
+Template:
+
+```json
+{
+  "people": "`people | map | fetch | partial:'./templates/people'`"
+}
+```
+
+Sub-Template "people":
+
+```json
+{
+  "name": "`name`",
+  "age": "`age`"
+}
+```
+
+Output:
+
+```json
+{
+  "people": [
+    {
+      "age": 24,
+      "name": "Cameron"
+    },
+    {
+      "age": 42,
+      "name": "Scott"
+    },
+    {
+      "age": 13,
+      "name": "Dave"
+    }
+  ]
+}
+```
+
 
 Tests
 -----
