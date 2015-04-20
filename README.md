@@ -224,7 +224,8 @@ function Options() {
    this.renderstream.xFormResults = [];	
 	
    // Push transformed item as it is processed into the xFormResults Array
-   // This could also be used to submit the item to a database, other storage, network stream, etc.
+   // This could also be used to submit the item to a database, 
+   // other storage, network stream, etc.
    this.renderstream.fnStreamOnXform = function(row) {
       this.xFormResults.push(row);
    };
