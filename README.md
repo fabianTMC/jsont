@@ -11,7 +11,7 @@ $ npm install jsont
 ```
 
 ```sh
-$ component install CamShaft/jsont
+$ component install UptownFound/jsont
 ```
 
 Features
