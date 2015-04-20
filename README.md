@@ -211,31 +211,32 @@ Transform Streaming
 
 You can tell `jsont` to use an asynchronous stream to transform an Array of JSON objects.  
 Custom event-handlers are defined on the Options object and passed in to `render` 
-as the `options`
+as the `options` parameter.
 
-```var jsont = require('jsont')();
+```js
+var jsont = require('jsont')();
 
 function Options() {
-	this.renderstream = {};
+   this.renderstream = {};
+
+   // Hold the transformed items
+   this.renderstream.xFormResults = [];	
 	
-	// Hold the transformed items
-	this.renderstream.xFormResults = [];	
+   // Push transformed item as it is processed into the xFormResults Array
+   this.renderstream.fnStreamOnXform = function(row) {
+      this.xFormResults.push(row);
+   };
 	
-	// Push transformed item as it is processed into the xFormResults Array
-	this.renderstream.fnStreamOnXform = function(row) {
-		this.xFormResults.push(row);
-	};
+   // Do this when there is an error
+   this.renderstream.fnStreamOnError = function(err) {
+      console.log(err.message);		
+   };
 	
-	// Do this when there is an error
-	this.renderstream.fnStreamOnError = function(err) {
-		console.log(err.message);		
-	};
-	
-	// Do this after the last item is transformed
-	this.renderstream.fnStreamOnFinish = function() {
+   // Do this after the last item is transformed
+   this.renderstream.fnStreamOnFinish = function() {
 		var xFormResultsJSON = JSON.stringify(this.xFormResults, null, 4);
 		
-		// Write to a file
+      // Write to a file
 		var fs = require('fs');
 		var outFile = "myfilename.json";
 		fs.writeFile(outFile, xFormResultsJSON, function (err) {
@@ -260,8 +261,8 @@ jsontTemplate.render(input, function(err, out) {
     if (err) { 
     	return console.log(err); 
     }
-    
-	console.log("Done! Transformed " + options.renderstream.xFormResults.length + " items");			    
+
+console.log("Done! Transformed " + options.renderstream.xFormResults.length + " items");			    
 });
 ```
 
